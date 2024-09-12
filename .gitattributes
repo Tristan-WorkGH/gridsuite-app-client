@@ -1,0 +1,525 @@
+# Define macros (only works in top-level gitattributes files)
+[attr]lfs              filter=lfs diff=lfs merge=lfs -text
+[attr]unity-json       eol=lf linguist-language=json
+[attr]unity-yaml       merge=unityyamlmerge eol=lf linguist-language=yaml
+
+# Details per file setting:
+#   text    These files should be normalized (i.e. convert CRLF to LF).
+#   binary  These files are binary and should be left untouched.
+# Note that binary is a macro for -text -diff.
+######################################################################
+
+# Auto detect text files and normalize line endings.
+# Handle line endings automatically for files detected as text and leave all files detected as binary untouched.
+*                      text=auto
+
+#
+# The above will handle all files NOT found below
+#
+
+# These files are text and should be normalized (Convert crlf => lf)
+# Exclude files from exporting
+# Enable syntax highlighting for files with `.gitattributes` extensions.
+.gitattributes              export-ignore linguist-language=gitattributes linguist-detectable=true linguist-documentation=false
+.gitignore                  export-ignore
+.gitkeep                    export-ignore
+
+# Documents / Documentation
+*.adoc                 text
+*.bibtex               text diff=bibtex
+*.csv                  text eol=crlf
+*.doc                       diff=astextplain
+*.DOC                       diff=astextplain
+*.docx                      diff=astextplain
+*.DOCX                      diff=astextplain
+*.dot                       diff=astextplain
+*.DOT                       diff=astextplain
+*.epub                      diff=astextplain
+*.ipynb                text eol=lf
+*.markdown             text diff=markdown
+*.md                   text diff=markdown linguist-detectable
+*.mdown                text diff=markdown
+*.mdtext               text
+*.mdtxt                text
+*.mdwn                 text diff=markdown
+*.mdx                  text diff=markdown
+*.mkd                  text diff=markdown
+*.mkdn                 text diff=markdown
+*.pdf                       diff=astextplain
+*.PDF                       diff=astextplain
+*.rtf                       diff=astextplain
+*.RTF                       diff=astextplain
+*.tab                  text
+*.tex                  text diff=tex
+*.textile              text
+*.tsv                  text
+*.txt                  text
+AUTHORS                text
+CHANGELOG              text
+CHANGES                text
+CONTRIBUTING           text
+COPYING                text
+copyright              text
+*COPYRIGHT*            text
+INSTALL                text
+license                text
+LICENSE                text
+NEWS                   text
+readme                 text
+*README*               text
+TODO                   text
+
+# Templates
+#*.dot                  text
+*.ejs                  text
+*.erb                  text
+*.haml                 text
+*.handlebars           text
+*.hbs                  text
+*.hbt                  text
+*.jade                 text
+*.latte                text
+*.mustache             text
+*.njk                  text
+*.phtml                text eol=lf diff=html
+*.svelte               text
+*.tmpl                 text
+*.tpl                  text
+*.twig                 text eol=lf
+*.vue                  text
+
+# Scripts
+*.bash                 text eol=lf
+*.fish                 text eol=lf
+*.ksh                  text eol=lf
+*.sh                   text eol=lf
+*.zsh                  text eol=lf
+# These are explicitly windows files and should use crlf
+*.bat                  text eol=crlf
+*.cmd                  text eol=crlf
+
+# Scripts: MicrosoftShell
+*.mcf                  text eol=crlf
+*.msh                  text eol=crlf
+*.msh1                 text eol=crlf
+*.msh1xml              text eol=crlf
+*.msh2                 text eol=crlf
+*.msh2xml              text eol=crlf
+*.mshxml               text eol=crlf
+
+# Scripts: PowerShell
+*.cdxml                text eol=crlf
+*.ps1                  text eol=crlf
+*.ps1x                 text eol=crlf
+*.ps1xml               text eol=crlf
+*.psd1                 text eol=crlf
+*.psm1                 text eol=crlf
+*.psrc                 text eol=crlf
+*.pssc                 text eol=crlf
+
+# Serialisation
+*.anim                 unity-yaml
+*.asmdef               unity-json
+*.asmref               unity-json
+*.asset                unity-yaml
+*.brush                unity-yaml
+*.controller           unity-yaml
+*.flare                unity-yaml
+*.fontsettings         unity-yaml
+*.giparams             unity-yaml
+*.guiskin              unity-yaml
+*.index                unity-json
+*.inputactions         unity-json
+*.json                 text
+*.lighting             unity-yaml
+*.mask                 unity-yaml
+*.mat                  unity-yaml
+*.meta                 unity-yaml
+*.mixer                unity-yaml
+*.overrideController   unity-yaml
+*.playable             unity-yaml
+*.prefab               unity-yaml
+*.preset               unity-yaml
+*.renderTexture        unity-yaml
+*.scenetemplate        unity-yaml
+*.shadergraph          unity-json
+*.shadersubgraph       unity-json
+*.shadervariants       unity-yaml
+*.signal               unity-yaml
+*.spriteatlas          unity-yaml
+*.spriteatlasv2        unity-yaml
+*.terrainlayer         unity-yaml
+*.toml                 text diff=toml
+*.unity                unity-yaml
+*.uxml                 text linguist-language=xml linguist-detectable
+*.xml                  text
+*.yaml                 text
+*.yml                  text
+
+# Exceptions for .asset files such as lightning pre-baking
+LightingData.asset     binary
+
+# Configs and log files
+*.cnf                  text
+*.conf                 text
+*.config               text
+*.hcl                       eol=lf
+*.lock                 text -diff
+*.properties           text
+*.tf                   text eol=lf
+*.tf.json              text eol=lf
+*.tfvars               text eol=lf
+.dcfg                       linguist-language=JSON5
+.dlf                        linguist-language=JSON5
+.editorconfig          text
+.env                   text
+.gitattributes         text
+.gitconfig             text
+.gvimrc text eol=lf
+.htaccess              text
+.vimrc text eol=lf
+browserslist           text
+Dockerfile             text
+Makefile               text
+makefile               text
+package-lock.json      text eol=lf -diff
+package.json           text eol=lf
+phpcs.xml              text eol=lf
+phpstan.neon           text eol=lf
+phpunit.xml            text eol=lf
+pnpm-lock.yaml         text eol=lf -diff
+Procfile               text
+psalm.xml              text eol=lf
+Vagrantfile            text eol=lf
+
+# Fix syntax highlighting on GitHub to allow comments
+tsconfig.json               linguist-language=JSON-with-Comments
+.devcontainer.json          linguist-language=JSON-with-Comments
+devcontainer.json           linguist-language=JSON-with-Comments
+.vscode/*.json              linguist-language=JSON-with-Comments
+
+# Source code
+.husky/*               text eol=lf
+#*.as                   text
+*.ada                  text diff=ada
+*.adb                  text diff=ada
+*.ads                  text diff=ada
+*.apl?                      linguist-language=APL
+*.asc                  text
+*.c                    text diff=cpp
+*.c++                  text diff=cpp
+*.cc                   text diff=cpp
+*.cginc                text
+*.cjs                  text
+*.coffee               text
+*.compute              text linguist-language=hlsl
+*.cpi                  text diff=cpp
+*.cpp                  text diff=cpp
+*.cs                   text diff=csharp
+*.cshtml               text diff=html
+*.css                  text diff=css
+*.csx                  text diff=csharp
+*.cxx                  text diff=cpp
+*.dyalog                    linguist-language=APL
+*.dyapp                     linguist-language=APL
+*.ex                        diff=elixir
+*.exs                       diff=elixir
+*.f                    text diff=fortran
+*.f03                  text diff=fortran
+*.f90                  text diff=fortran
+*.f95                  text diff=fortran
+*.fdx                  text
+*.fla                  text
+*.for                  text diff=fortran
+*.fountain             text diff=fountain
+*.fs                   text diff=fsharp
+*.fsx                  text diff=fsharp
+*.gradle               text diff=java
+*.gradle.kts           text diff=kotlin
+*.groovy               text diff=java
+*.h                    text diff=cpp
+*.h++                  text diff=cpp
+*.hh                   text diff=cpp
+*.hlsl                 text linguist-language=hlsl
+*.hpp                  text diff=cpp
+*.htm                  text diff=html
+*.html                 text diff=html
+*.inc                  text
+*.ini                  text
+*.java                 text diff=java
+*.js                   text
+*.jsfl                 text
+*.jsp                  text
+*.jspf                 text
+*.jspx                 text
+*.jsx                  text
+*.kt                   text diff=kotlin
+*.less                 text
+*.ls                   text
+*.lua                  text
+*.m                    text diff=objc
+*.map                  text -diff
+*.mipage                    linguist-language=APL
+*.mjs                  text
+*.od                   text
+*.onlydata             text
+*.phar                 binary
+*.php                  text eol=lf diff=php
+*.phpt                 text eol=lf diff=php
+*.pl                   text diff=perl
+*.pm                   text diff=perl
+*.pxd                  text diff=python
+*.py                   text diff=python
+*.py3                  text diff=python
+*.pyi                  text diff=python
+*.pyw                  text diff=python
+*.pyx                  text diff=python
+*.pyz                  text diff=python
+*.raytrace             text linguist-language=hlsl
+*.rb                   text diff=ruby
+*.rs                   text diff=rust
+*.sass                 text
+*.scala                text diff=java
+*.scm                  text
+*.scss                 text diff=css
+*.shader               text
+*.sql                  text linguist-detectable=true linguist-language=sql
+*.styl                 text
+*.swift                text diff=swift
+*.tag                  text
+*.tagx                 text
+*.tld                  text
+*.ts                   text
+*.tss                  text diff=css linguist-language=css
+*.tsx                  text
+*.uss                  text diff=css linguist-language=css
+*.vim text eol=lf
+*.xhtml                text diff=html
+
+# Graphics
+*.ai                   binary
+*.bmp                  binary
+*.eps                  binary
+*.gif                  binary
+*.gifv                 binary
+*.ico                  binary
+*.jng                  binary
+*.jp2                  binary
+*.jpg                  binary
+*.jpeg                 binary
+*.jpx                  binary
+*.jxr                  binary
+#*.pdf                  binary
+*.png                  binary
+*.psb                  binary
+*.psd                  binary
+# SVG treated as an asset (binary) by default.
+*.svg                  text
+# If you want to treat it as binary, use the following line instead.
+# *.svg                binary
+*.svgz                 binary
+*.tif                  binary
+*.tiff                 binary
+*.wbmp                 binary
+*.webp                 binary
+
+# Audio
+*.kar                  binary
+*.m4a                  binary
+*.mid                  binary
+*.midi                 binary
+*.mp3                  binary
+*.ogg                  binary
+*.ra                   binary
+
+# Video
+*.3gpp                 binary
+*.3gp                  binary
+*.as                   binary
+*.asf                  binary
+*.asx                  binary
+*.avi                  binary
+*.fla                  binary
+*.flv                  binary
+*.m4v                  binary
+*.mng                  binary
+*.mov                  binary
+*.mp4                  binary
+*.mpeg                 binary
+*.mpg                  binary
+*.ogv                  binary
+*.swc                  binary -crlf -diff -merge
+*.swf                  binary -crlf -diff -merge
+*.webm                 binary
+
+# Archives
+*.7z                   binary
+*.bz                   binary
+*.bz2                  binary
+*.bzip2                binary
+*.ear                  binary
+*.gz                   binary
+*.jar                  binary
+*.lz                   binary
+*.lzma                 binary
+*.rar                  binary
+*.tar                  binary
+*.taz                  binary
+*.tbz                  binary
+*.tbz2                 binary
+*.tgz                  binary
+*.tlz                  binary
+*.txz                  binary
+*.war                  binary
+*.xz                   binary
+*.Z                    binary
+*.zip                  binary
+*.zst                  binary
+
+# Fonts
+*.ttf                  binary
+*.eot                  binary
+*.otf                  binary
+*.woff                 binary
+*.woff2                binary
+
+# Compiled Bytecode files
+*.class                binary
+*.pyc                  binary export-ignore
+*.pyo                  binary export-ignore
+
+# Compiled Object files
+*.slo                  binary
+*.lo                   binary
+*.o                    binary
+*.obj                  binary
+
+# Precompiled Headers
+*.gch                  binary
+*.pch                  binary
+
+# Compiled Dynamic libraries
+*.so                   binary
+*.dylib                binary
+*.dll                  binary
+*.pyd                  binary
+
+# Compiled Static libraries
+*.lai                  binary
+*.la                   binary
+*.a                    binary
+*.lib                  binary
+
+# Executables
+*.exe                  binary
+*.out                  binary
+*.app                  binary
+*.pyc                  binary
+
+# Common build-tool wrapper scripts ('.cmd' versions are handled by 'Common.gitattributes')
+mvnw                   text eol=lf
+gradlew                text eol=lf
+
+# RC files (like .babelrc or .eslintrc)
+*.*rc                  text
+
+# Ignore files (like .npmignore or .gitignore)
+*.*ignore              text
+
+# Text files where line endings should be preserved
+*.patch                -text
+
+# GNAT Project files (syntax similar to Ada)
+*.gpr                      linguist-language=Ada
+
+# Treat all Go files in this repo as binary, with no git magic updating
+# line endings. Windows users contributing to Go will need to use a
+# modern version of git and editors capable of LF line endings.
+*.go                   -text diff=golang
+
+# These settings are for Ruby On Rails project
+# Define a dummy ours merge strategy with: `git config --global merge.ours.driver true`
+schema.rb                   merge=ours diff=ruby
+
+# "physic" for 3D but "physics" for 2D
+*.physicMaterial       unity-yaml
+*.physicsMaterial2D    unity-yaml
+
+# Other
+# These files are text and should be normalized (Convert crlf => lf)
+*.df                   text
+
+# Binary files
+# These files are binary and should be left untouched (binary is a macro for -text -diff)
+# Note: .db, .p, and .pkl files are associated with the python modules ``pickle``,
+# ``dbm.*``, ``shelve``, ``marshal``, ``anydbm``, & ``bsddb`` (among others).
+*.jks                  binary
+*.db                   binary
+*.p                    binary
+*.pkl                  binary
+*.pickle               binary
+
+# Prevents massive diffs caused by vendored, minified files
+**/.yarn/releases/**   binary linguist-vendored
+**/.yarn/plugins/**    binary linguist-vendored
+
+# Prevents massive diffs from built files
+dist/*                 binary linguist-generated
+
+# Exclude third-party plugins from GitHub stats
+Assets/Plugins/**             linguist-vendored
+
+# https://tina.io/
+.tina/__generated__/          linguist-generated
+
+
+###############################################################################
+# Set the merge driver for project and solution files
+#
+# Merging from the command prompt will add diff markers to the files if there
+# are conflicts (Merging from VS is not affected by the settings below, in VS
+# the diff markers are never inserted). Diff markers may cause the following
+# file extensions to fail to load in VS. An alternative would be to treat
+# these files as binary and thus will always conflict and require user
+# intervention with every merge. To do so, just comment the entries below and
+# uncomment the group further below
+###############################################################################
+*.pbxproj merge=union
+# compare .pbxproj files as binary and always merge as union
+#*.pbxproj binary -merge=union
+
+*.sln                  text eol=crlf
+*.csproj               text eol=crlf
+*.vbproj               text eol=crlf
+*.vcxproj              text eol=crlf
+*.vcproj               text eol=crlf
+*.dbproj               text eol=crlf
+*.fsproj               text eol=crlf
+*.lsproj               text eol=crlf
+*.wixproj              text eol=crlf
+*.modelproj            text eol=crlf
+*.sqlproj              text eol=crlf
+*.wwaproj              text eol=crlf
+
+*.xproj                text eol=crlf
+*.props                text eol=crlf
+*.filters              text eol=crlf
+*.vcxitems             text eol=crlf
+
+#*.sln                 merge=binary
+#*.csproj              merge=binary
+#*.vbproj              merge=binary
+#*.vcxproj             merge=binary
+#*.vcproj              merge=binary
+#*.dbproj              merge=binary
+#*.fsproj              merge=binary
+#*.lsproj              merge=binary
+#*.wixproj             merge=binary
+#*.modelproj           merge=binary
+#*.sqlproj             merge=binary
+#*.wwaproj             merge=binary
+
+#*.xproj               merge=binary
+#*.props               merge=binary
+#*.filters             merge=binary
+#*.vcxitems            merge=binary
