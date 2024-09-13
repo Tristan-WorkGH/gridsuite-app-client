@@ -1,0 +1,108 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v\d+'
+  #release:
+  #    types: [ created ]
+  pull_request: {}
+  schedule:
+    - cron: '0 7 * * *'
+
+env:
+  #CI: true
+  IGNORE_TASKS: '|user-identity-oidc-replication|'
+
+jobs:
+  generate_swagger:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        task_name:
+          - actions
+          - balances-adjustment
+          - case-import
+          - case-validation
+          - cgmes-boundary
+          - cgmes-gl
+          - config
+          - directory
+          - dynamic-mapping
+          - dynamic-simulation
+          - explore
+          - filter
+          - geo-data
+          - loadflow
+          - merge-orchestrator
+          - network-map
+          - network-modification
+          - odre
+          - report
+          - security-analysis
+          - sensitivity-analysis
+          - shortcircuit
+          - study
+          - timeseries
+          - user-admin
+          - user-identity-oidc-replication
+          - voltage-init
+    name: OpenApi generation for ${{ matrix.task_name }}
+    if: ${{ !cancelled() && contains(env.IGNORE_TASKS, format('|{0}|',matrix.task_name)) == 'true' }}
+    steps:
+      - run: echo "hello"
+      #- name: Checkout repository
+      #  uses: actions/checkout@v4
+      #- name: Setup Java
+      #  if: ${{ success() }}
+      #  uses: actions/setup-java@v4
+      #  with:
+      #    distribution: oracle
+      #    java-version: 17
+      #    cache: maven
+      #    cache-dependency-path: |
+      #      extract-swagger.jsh
+      #      .github/workflows/update.yml
+      #- name: Run script
+      #  if: ${{ success() }}
+      #  shell: bash
+      #  run: ./extract-swagger.jsh ${{ matrix.task_name }}
+      #- name: Save OpenApi file(s)
+      #  if: ${{ success() }}
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: openapi-${{ matrix.task_name }}
+      #    path: dist/openapi-*.json
+      #    if-no-files-found: error
+      #    compression-level: 9
+
+  job2:
+    runs-on: ubuntu-latest
+    if: ${{ false && !cancelled() }}
+    needs: generate_swagger
+    steps:
+      - run: echo "CI triggered by a ${{ github.event_name }} event."
+      - name: Merge & clean artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: openapi.zip
+          pattern: openapi-*
+          separate-directories: false
+          delete-merged: true
+          compression-level: 9
+      - name: Checkout repository
+        uses: actions/checkout@4
+      - uses: actions/download-artifact@v4
+        with:
+          path: $GITHUB_WORKSPACE/dist
+          merge-multiple: true
+      - name: Display workspace files
+        run: ls -l ${{ github.workspace }}
+      #TODO re-save under 1 artifact all openapi files + remove old artifacts
+      - name: Display downloaded files
+        run: ls -lR $GITHUB_WORKSPACE/dist
+      #TODO setup node
+      #TODO: run script split+dedup+merge+gen+pack
+      #TODO: run script commit+push
+      #TODO: publish package

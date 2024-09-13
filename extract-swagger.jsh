@@ -127,7 +127,7 @@ for(final String repo : reposTodo) {
     final File wDir = cd(repo);
     if (!Files.isDirectory(Paths.get(".", repo))) {
         /* We clone the repo if not existing */
-        run(workDir.toFile(), "git", "--no-pager", "clone", "https://github.com/gridsuite/" + repo + ".git");
+        run(workDir.toFile(), "git", "--no-pager", "clone", "--depth", "1", "https://github.com/gridsuite/" + repo + ".git");
     } else {
         /* We must update the repo (will discard all change and to "main" branch */
         run(wDir, "git", "--no-pager", "reset", "--hard", "HEAD"); //reset tracked files
